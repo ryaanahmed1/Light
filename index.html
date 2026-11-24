@@ -6,17 +6,24 @@
 <title>Daybreak · Morning routine</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#fbf6ec;color:#302b27;font:16px/1.5 "DM Sans",-apple-system,BlinkMacSystemFont,sans-serif}main{max-width:850px;margin:auto;padding:24px max(18px,env(safe-area-inset-left)) max(36px,env(safe-area-inset-bottom))}header,.row,.split{display:flex;align-items:center;justify-content:space-between;gap:12px}header{padding-bottom:14px;border-bottom:1px solid #cfbeac}header b{font: bold 23px Georgia,serif}header time,small,.hint{font-size:13px;color:#60564c}.hero{position:relative;isolation:isolate;overflow:hidden;padding:40px 22px;background:linear-gradient(110deg,#f7e9ce,#edc693 80%,#e99864);border-radius:16px;margin:18px 0}.hero:after{position:absolute;content:"";width:160px;height:160px;border-radius:50%;background:repeating-linear-gradient(to bottom,#fff1ac 0 9px,transparent 9px 12px);right:-26px;bottom:-44px;z-index:-1}h1,h2{font:normal 30px/1.12 Georgia,serif;margin:0}h1{font-size:clamp(33px,6vw,54px);letter-spacing:-.045em}.grid{display:grid;grid-template-columns:1.16fr 1fr;gap:16px;align-items:start}section{padding:20px;border:1px solid #dccfbd;border-radius:16px;background:#fffdf8;min-width:0}.tag{font:600 11px/1.5 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#735942;margin:0 0 6px}button,summary,input{font:inherit;cursor:pointer;touch-action:manipulation}button{min-height:46px;border:1px solid #cfbdab;border-radius:10px;background:#fffaf2;color:#302b27;padding:8px 14px;font-weight:600}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #96620a;outline-offset:2px}button:disabled{opacity:.52;cursor:default}.primary{background:#503a32;color:white;border-color:#503a32}.buttons{display:flex;gap:9px;margin:12px 0}.buttons button{flex:1}.picker{display:flex;gap:12px;align-items:center}.picker input{width:54px;height:46px;border:1px solid #cfbdab;border-radius:8px;background:#fff;padding:4px}.picker button{flex:1}.count{border-top:1px solid #dccfbd;margin-top:18px;padding-top:14px}.count strong{font:32px Georgia,serif}.task{display:flex;align-items:center;min-height:54px;gap:12px;border-top:1px solid #e8dccd}.task input{accent-color:#80503b;width:22px;height:22px}.task input:checked+span{text-decoration:line-through;color:#70665e}progress{width:100%;height:7px;accent-color:#925532;margin:15px 0}summary{padding:13px 0;font-weight:600}details p{margin:0 0 12px}.hint{margin:10px 0}a{color:#71462f}#saveWarn{color:#842e1c}@media(max-width:640px){.grid{grid-template-columns:1fr}.hero{padding:28px 16px}.hero:after{width:105px;height:105px}h2{font-size:27px}}
-</style>
+select,input[type=text]{max-width:100%;width:100%;font:inherit;border:1px solid #c9b59e;background:#fffaf3;border-radius:9px;padding:11px;color:#302b27} .field{display:block;margin:14px 0 5px;font-weight:600}.picker select{flex:1;min-width:0}.picker button{flex:0 0 auto}details li{margin:.6em 0}details ol{padding-left:1.35em}code{overflow-wrap:anywhere}form button{margin-top:8px}.hint{min-height:1.5em}</style>
 <main>
 <header><b>☼ Daybreak</b><time id="date"></time></header>
 <div class="hero"><p class="tag">Morning routine</p><h1>Good morning, Ryaan.</h1></div>
 <div class="grid">
-<section><p class="tag">Room lighting</p><div class="row"><h2>KSIPZE strip</h2><button id="connect">Connect light</button></div>
-<p id="status" class="hint" role="status">Connect your strip to enable the controls.</p>
-<div class="buttons"><button class="primary" id="on" disabled>Turn on</button><button id="off" disabled>Turn off</button></div>
-<div class="picker"><input type="color" id="color" aria-label="Choose light color" value="#ff9955"><button id="apply" disabled>Apply color</button></div>
-<div class="row count"><div><b>Light changes</b><br><small>All time · from this dashboard</small></div><strong id="total" aria-live="polite">0</strong></div>
-<details id="guide"><summary>iPhone setup</summary><p>On your Mac, put this file in its own folder as <b>index.html</b>. Drag the folder onto <a href="https://app.netlify.com/drop">Netlify Drop</a> and follow the prompts to get a web address. Anyone with that address can view the page. Your checklist and count stay in your browser.</p><p>Open that HTTPS address in <a href="https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055">Bluefy</a> on your iPhone. Allow Bluetooth, plug in the strip, and close its usual control app. Tap <b>Connect light</b> and choose the device starting with <b>KS03~</b>. Other controller models need their own commands.</p><p>Use the same address and browser each morning to keep your progress. The counter records successful power or color commands and skips repeated settings during a connection.</p></details></section>
+<section><p class="tag">Room lighting</p><h2>Light controls</h2>
+<label class="field" for="light">Choose a light</label><select id="light"></select>
+<div class="buttons"><button class="primary" id="on">Turn on</button><button id="off">Turn off</button></div>
+<label class="field" for="preset">Color preset</label><div class="picker"><select id="preset"><option>Amber</option><option>Blue</option><option>Pink</option></select><button id="apply">Apply color</button></div>
+<p id="status" class="hint" role="status">Set up your light shortcuts below before the first use.</p>
+<div class="row count"><div><b>Light changes</b><br><small>Completed dashboard commands</small></div><strong id="total" aria-live="polite">0</strong></div>
+<details id="guide"><summary>Set up your light &amp; NFC tag</summary><ol>
+<li>On iPhone, open <b>Home → + → Add Accessory</b>. Scan your Tapo L535E’s Matter code and choose a room. Test the bulb in Home.</li>
+<li>Open <b>Shortcuts → + → Add Action</b>. Search for <b>Control Home</b>, select your home and bulb, and set its power to on. Name the shortcut <b id="nameOn"></b>. Run it once to test.</li>
+<li>Duplicate it for off and name it <b id="nameOff"></b>. For color, duplicate it again, set power on, choose the color in the Home action, and name it <b id="nameColor"></b>. Repeat for other colors you want. Names here update when you select a different light or preset.</li>
+<li>Edit the shortcut your NFC tag already runs. Add <b>Open URLs</b> with this dashboard’s web address. Bookmark the same address in Safari and use Safari as your default browser so shortcut results return to the same saved progress.</li></ol>
+<p>Each successful shortcut return adds one to the count, including a repeat command. The bulb’s physical state is visible in Apple Home.</p>
+<form id="addLight"><label class="field" for="nickname">Add another light</label><input type="text" id="nickname" maxlength="35" placeholder="Desk lamp" required><button>Add light</button></form></details></section>
 <section><p class="tag">Daily checklist</p><div class="row"><h2>My morning</h2><small id="fraction"></small></div><progress id="bar" max="3" value="0" aria-label="Morning tasks completed"></progress>
 <label class="task"><input type="checkbox"><span>Drink a glass of water</span></label>
 <label class="task"><input type="checkbox"><span>Stretch for five minutes</span></label>
@@ -32,7 +39,6 @@ let data = {};
 try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
 if (typeof data !== 'object' || Array.isArray(data)) data = {};
 if (!Number.isSafeInteger(data.total) || data.total < 0) data.total = 0;
-if (/^#[0-9a-f]{6}$/i.test(data.color)) el('color').value = data.color;
 function save() {
   try { localStorage.setItem(key, JSON.stringify(data)); }
   catch { el('saveWarn').textContent = 'Browser storage is unavailable. Progress will last for this visit only.'; }
@@ -60,79 +66,93 @@ tasks.forEach((box,i) => box.onchange = () => {
   save();
   updateDay();
 });
-el('color').onchange = () => { data.color = el('color').value; save(); };
-updateDay();
-setInterval(updateDay,30000);
-document.addEventListener('visibilitychange',updateDay);
-let device, writer, busy = false, power = null, sentColor = null;
-function status(message) { el('status').textContent = message; }
-function render() {
-  el('connect').textContent = writer ? 'Disconnect' : 'Connect light';
-  el('connect').disabled = busy;
-  for (const id of ['on','off','apply']) el(id).disabled = busy || !writer;
+
+const settingsKey = 'daybreak.lights.v1';
+const pendingPrefix = 'daybreak.command.';
+let settings;
+try { settings = JSON.parse(localStorage.getItem(settingsKey)); } catch {}
+if (!Array.isArray(settings?.lights) || !settings.lights.length) {
+  settings = {lights:['Bedside'], selected:'Bedside', preset:'Amber'};
 }
-function disconnected(event) {
-  if (event && event.target !== device) return;
-  writer = null;
-  power = sentColor = null;
-  status('Disconnected. Tap Connect light to reconnect.');
-  render();
+function saveSettings() {
+  try { localStorage.setItem(settingsKey, JSON.stringify(settings)); }
+  catch { el('saveWarn').textContent = 'Browser storage is unavailable. Settings cannot be saved.'; }
 }
-el('connect').onclick = async () => {
-  if (busy) return;
-  if (writer) { device.gatt.disconnect(); disconnected(); return; }
-  if (!navigator.bluetooth || !window.isSecureContext) {
-    status('Open the HTTPS page in Bluefy on iPhone to connect.');
-    el('guide').open = true;
-    return;
-  }
-  busy = true;
-  render();
-  try {
-    device = await navigator.bluetooth.requestDevice({filters:[{namePrefix:'KS03~'}], optionalServices:[0xafd0]});
-    device.addEventListener('gattserverdisconnected', disconnected);
-    const server = await device.gatt.connect();
-    const service = await server.getPrimaryService(0xafd0);
-    writer = await service.getCharacteristic(0xafd1);
-    status('Connected to ' + device.name + '.');
-  } catch (error) {
-    if (device?.gatt.connected) device.gatt.disconnect();
-    writer = null;
-    status(error.name === 'NotFoundError' ? 'No strip selected. Check the Bluetooth name and try again.' : 'Connection failed. Close the light app and reconnect nearby.');
-  } finally { busy = false; render(); }
+function shortcutName(action) { return settings.selected + ' ' + action; }
+function renderNames() {
+  el('nameOn').textContent = shortcutName('On');
+  el('nameOff').textContent = shortcutName('Off');
+  el('nameColor').textContent = shortcutName(settings.preset);
+}
+function renderLights() {
+  el('light').replaceChildren(...settings.lights.map(name => new Option(name,name)));
+  el('light').value = settings.selected;
+  el('preset').value = settings.preset;
+  renderNames();
+}
+el('addLight').onsubmit = event => {
+  event.preventDefault();
+  const name = el('nickname').value.trim();
+  if (!name) return;
+  settings.selected = settings.lights.find(light => light.toLowerCase() === name.toLowerCase()) || name;
+  if (!settings.lights.includes(settings.selected)) settings.lights.push(settings.selected);
+  el('nickname').value = '';
+  saveSettings();
+  renderLights();
+  el('status').textContent = 'Selected ' + settings.selected + '. Create its named shortcuts before use.';
 };
-async function send(action) {
-  if (!writer || busy) return;
-  const color = el('color').value;
-  const isColor = action === 'color';
-  if ((isColor && sentColor === color) || (!isColor && power === action)) {
-    status('That setting was already sent.');
+el('light').onchange = () => { settings.selected = el('light').value; saveSettings(); renderNames(); };
+el('preset').onchange = () => { settings.preset = el('preset').value; saveSettings(); renderNames(); };
+function run(action) {
+  if (location.protocol !== 'https:') {
+    el('status').textContent = 'Open the hosted dashboard in Safari on your iPhone to control a light.';
     return;
   }
-  const rgb = color.slice(1).match(/../g).map(pair => parseInt(pair,16));
-  const bytes = Uint8Array.from(isColor ? [0x5a,0,1,...rgb,0,100,0,0xa5] : [0x5b,action === 'on' ? 0xf0 : 0x0f,0,0xb5]);
-  const active = writer;
-  busy = true;
-  render();
-  try {
-    if (active.properties.write && active.writeValueWithResponse) await active.writeValueWithResponse(bytes);
-    else if (active.properties.writeWithoutResponse && active.writeValueWithoutResponse) await active.writeValueWithoutResponse(bytes);
-    else await active.writeValue(bytes);
-    data.total++;
-    save();
-    updateDay();
-    if (active === writer) {
-      if (isColor) sentColor = color;
-      else { power = action; sentColor = null; }
-      status('Last sent · ' + (isColor ? color.toUpperCase() : 'Power ' + action));
-    }
-  } catch {
-    power = sentColor = null;
-    status('Couldn’t send the change. Reconnect the strip and try again.');
-  } finally { busy = false; render(); }
+  const id = Array.from(crypto.getRandomValues(new Uint32Array(4))).join('-');
+  const name = shortcutName(action);
+  try { localStorage.setItem(pendingPrefix + id, name); }
+  catch { el('status').textContent = 'Allow browser storage to track light commands.'; return; }
+  const link = new URL('shortcuts://x-callback-url/run-shortcut');
+  link.searchParams.set('name',name);
+  for (const result of ['success','error','cancel']) {
+    const back = new URL(location.pathname, location.origin);
+    back.searchParams.set('command',id);
+    back.searchParams.set('outcome',result);
+    link.searchParams.set('x-' + result,back.href);
+  }
+  el('status').textContent = 'Opening “' + name + '”. If it does not run, check iPhone setup below.';
+  location.assign(link.href);
 }
-el('on').onclick = () => send('on');
-el('off').onclick = () => send('off');
-el('apply').onclick = () => send('color');
-</script>
-</html>
+function finishCommand() {
+  const url = new URL(location.href);
+  const id = url.searchParams.get('command');
+  if (!id) return;
+  const outcome = url.searchParams.get('outcome');
+  try {
+    const name = localStorage.getItem(pendingPrefix + id);
+    if (name) {
+      localStorage.removeItem(pendingPrefix + id);
+      if (outcome === 'success') {
+        data.total++;
+        save();
+        el('status').textContent = name + ' completed.';
+      } else { el('status').textContent = name + ' did not finish. Check the shortcut in Shortcuts.'; }
+    }
+  } catch { el('saveWarn').textContent = 'Browser storage unavailable.'; }
+  history.replaceState(null,'',url.pathname);
+}
+function syncProgress() {
+  try { const fresh = JSON.parse(localStorage.getItem(key)); if (fresh && typeof fresh.total === 'number') data = fresh; } catch {}
+  updateDay();
+}
+el('on').onclick = () => run('On');
+el('off').onclick = () => run('Off');
+el('apply').onclick = () => run(settings.preset);
+renderLights();
+finishCommand();
+updateDay();
+setInterval(syncProgress,30000);
+window.addEventListener('storage',e => { if (e.key === key) syncProgress(); });
+window.addEventListener('pageshow',syncProgress);
+document.addEventListener('visibilitychange',() => { if (!document.hidden) syncProgress(); });
+</script></html>
